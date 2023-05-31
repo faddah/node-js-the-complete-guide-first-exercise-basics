@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path')
 
+const { homeIndexTemplate } = require('./homeIndexTemp')
+
 const requestHandler = (req, res) => {
 	const url = req.url;
 	const method = req.method;
@@ -13,14 +15,7 @@ const requestHandler = (req, res) => {
 		return;
 	}
 	if (url === '/') {
-		res.setHeader('Content-Type', 'text/html');
-		res.write(`<html>`);
-		res.write(`<head><title>My Enter Message Form Page</title></head>`);
-		res.write(`<body>`);
-		res.write(`<h1 style='color: dodgerblue; font-size: 36px; text-align: center;'>Hello from Faddah's Node.JS Server!</h1></body>`);
-		res.write(`<form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form>`);
-		res.write(`</body>`);
-		res.write(`</html>`);
+		res.write(homeIndexTemplate);
 		return res.end();
 	}
 	if (url === '/message' && method === 'POST') {
