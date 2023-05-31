@@ -1,24 +1,30 @@
 const fs = require('fs');
 const path = require('path')
 
-const { homeIndexTemplate } = require('./homeIndexTemp')
+const { homeWithInputTemplate } = require('./homeWithInputTemp')
+const { homeTemplate } = require('./homeTemp')
+const { usersTemplate } = require('./usersTemp')
 
 const requestHandler = (req, res) => {
-	const url = req.url;
-	const method = req.method;
-	if (url === '/favicon.ico') {
-		const faviconPath = path.join(__dirname, './', 'favicon.ico');
-		const faviconStream = fs.createReadStream(faviconPath);
-		res.writeHead(200, { 'Content-Type': 'image/x-icon' });
-		faviconStream.pipe(res);
-		// return res.end();
-		return;
-	}
-	if (url === '/') {
-		res.write(homeIndexTemplate);
+const url = req.url;
+const method = req.method;
+if (url === '/favicon.ico') {
+	const faviconPath = path.join(__dirname, './', 'favicon.ico');
+	const faviconStream = fs.createReadStream(faviconPath);
+	res.writeHead(200, { 'Content-Type': 'image/x-icon' });
+	faviconStream.pipe(res);
+	// return res.end();
+	return;
+}
+if (url === '/') {
+	res.write(homeWithInputTemplate);
+	return res.end();
+}
+	if (url === '/users') {
+		res.write(usersTemplate);
 		return res.end();
 	}
-	if (url === '/message' && method === 'POST') {
+	if (url === '/create-user' && method === 'POST') {
 		const body = [];
 		req.on('data', chunk => {
 			console.log(chunk);
@@ -28,18 +34,16 @@ const requestHandler = (req, res) => {
 			const parsedBody = Buffer.concat(body).toString();
 			// console.log(parsedBody);
 			const message = parsedBody.split('=')[1];
+			console.log(message);
 			fs.writeFile('message.text', message, err => {
 				res.statusCode = 302;
-				res.setHeader('Location', '/');
+				res.setHeader('Location', '/users');
 				return res.end();
 			});
 		});
 	}
 	res.setHeader('Content-Type', 'text/html');
-	res.write(`<html>`);
-	res.write(`<head><title>My First Server Page</title></head>`);
-	res.write(`<body><h1 style='color: dodgerblue; font-size: 36px; text-align: center;'>Hello from Faddah's Node.JS Server!</h1></body>`);
-	res.write(`</html>`);
+	res.write(homeTemplate);
 	res.end();
 }
 
