@@ -21,6 +21,7 @@ if (url === '/') {
 	return res.end();
 }
 	if (url === '/users') {
+		console.log(`Now in the User List Template.`);
 		res.write(usersTemplate);
 		return res.end();
 	}
@@ -33,9 +34,9 @@ if (url === '/') {
 		return req.on('end', () => {
 			const parsedBody = Buffer.concat(body).toString();
 			// console.log(parsedBody);
-			const message = parsedBody.split('=')[1];
-			console.log(message);
-			fs.writeFile('message.text', message, err => {
+			const newUser = parsedBody.split('=')[1];
+			console.log(newUser);
+			fs.writeFile('message.text', newUser, err => {
 				res.statusCode = 302;
 				res.setHeader('Location', '/users');
 				return res.end();
