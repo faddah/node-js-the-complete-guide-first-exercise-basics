@@ -21,26 +21,29 @@ if (url === '/') {
 	return res.end();
 }
 	if (url === '/users') {
-		console.log(`Now in the User List Template.`);
 		res.write(usersTemplate);
 		return res.end();
 	}
 	if (url === '/create-user' && method === 'POST') {
 		const body = [];
 		req.on('data', chunk => {
-			console.log(chunk);
+			console.log(`data chunk in routes.js: ${chunk}`);
 			body.push(chunk);
-		})
+		});
 		return req.on('end', () => {
 			const parsedBody = Buffer.concat(body).toString();
-			// console.log(parsedBody);
-			const newUser = parsedBody.split('=')[1];
-			console.log(newUser);
-			fs.writeFile('message.text', newUser, err => {
+			console.log(`parsedBody var in routes.js: ${parsedBody}`);
+			const newUser = `\n${parsedBody.split('=')[1].replace(/\+/g, " ")}`;
+			console.log(`newUser var in routes.js: ${newUser}`);
+			fs.appendFileSync('userList.txt', newUser, err => {
 				res.statusCode = 302;
 				res.setHeader('Location', '/users');
 				return res.end();
 			});
+		if (url === '/create-user') {
+			res.write(usersTemplate);
+			return res.end();
+		}
 		});
 	}
 	res.setHeader('Content-Type', 'text/html');
