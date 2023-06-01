@@ -3,13 +3,13 @@ const homeWithInputTemplate = `
 	<head>
 		<title>My Enter Message Form Page</title>
 	</head>
-	<body>
-		<h1 style = "color: dodgerblue; font-size: 36px; text-align: center;">
+	<body style="margin: 3em">
+		<h1 style = "color: dodgerblue; font-size: 36px; margin-bottom: 7.5%; text-align: center;">
 			Hello from Faddah's Node.JS User List Server!
 		</h1>
 		<form action="/create-user" method="POST">
-			<input type="text" name="create-user">
-			<button type="submit">Add User Name</button>
+			<input type="text" name="create-user" style="font-size: 24px; width: 35%;">
+			<button type="submit" style="background-color: dodgerblue; border-radius: 15px; color: white; font-size: 24px; font-weight: 700; padding: 0.5em;">Add User Name</button>
 		</form>
 	</body>
 </html>
