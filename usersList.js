@@ -3,20 +3,30 @@ const fs = require('fs');
 const pathToUserListFile = './userList.txt';
 
 const readFileToArray = (filePath) => {
-	try {
-		const data = fs.readFileSync(filePath, 'utf8');
-		const dataArray = data.trim().split('\n');
-		return dataArray;
-	} catch (error) {
-		throw new Error(`The Promise to read in the text file was rejected: ${error}.`);
-	}
+	return new Promise((resolve, reject) => {
+		fs.readFile(filePath, 'utf8', (error, data) => {
+			if (error) {
+				reject(`The Promise to read in the text file was rejected: ${error}.`);
+			} else {
+				resolve(data.trim().split('\n'));
+			}
+		});
+	});
 }
+	// fs.readFile(filePath, 'utf8', (error, data) => {
+	// 	if(error) throw `An error occured reading in the userList.txt file: ${error}.`;
+	// 	return data.trim().split('\n');
+	// });
 
-const dataList = readFileToArray(pathToUserListFile);
+const getUsersList = () => {
+	readFileToArray(pathToUserListFile)
+		.then(dataArray => {
+			return dataArray.map(dataMember => `<li>${dataMember}</li>\n`).join('').toString();
+		})
+		.catch(error => console.error(`There was an error attempting to retrieve the userList.txt: ${error}.`));
+}		
 
-const usersList = dataList.map(user => `<li>${user}</li>\n`).join('').toString();
-
-module.exports.usersList = usersList;
+	module.exports.getUsersList = getUsersList;
 
 
 // const readFileToArray = (filePath) => {
