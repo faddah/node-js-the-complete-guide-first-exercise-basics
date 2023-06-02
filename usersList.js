@@ -24,9 +24,9 @@ const getUsersList = () => {
 			return dataArray.map(dataMember => `<li>${dataMember}</li>\n`).join('').toString();
 		})
 		.catch(error => console.error(`There was an error attempting to retrieve the userList.txt: ${error}.`));
-}		
+}
 
-	module.exports.getUsersList = getUsersList;
+module.exports.getUsersList = getUsersList;
 
 
 // const readFileToArray = (filePath) => {
