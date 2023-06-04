@@ -1,3 +1,5 @@
 app-05-fixed-missing-head-tag.js
 routes-05-fixed-missing-head-tag.js
 serverUrl.js
+/.vscode
+/.vscode/settings.json
