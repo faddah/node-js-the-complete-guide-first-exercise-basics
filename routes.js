@@ -5,7 +5,7 @@ const { homeWithInputTemplate } = require('./homeWithInputTemp')
 const { homeTemplate } = require('./homeTemp')
 const { usersTemplate } = require('./usersTemp')
 
-const requestHandler = (req, res) => {
+const requestHandler = async (req, res) => {
 const url = req.url;
 const method = req.method;
 if (url === '/favicon.ico') {
@@ -21,7 +21,7 @@ if (url === '/') {
 	return res.end();
 }
 	if (url === '/users') {
-		res.write(usersTemplate);
+		res.write(await usersTemplate());
 		return res.end();
 	}
 	if (url === '/create-user' && method === 'POST') {
@@ -30,7 +30,7 @@ if (url === '/') {
 			console.log(`data chunk in routes.js: ${chunk}`);
 			body.push(chunk);
 		});
-		return req.on('end', () => {
+		return req.on('end', async () => {
 			const parsedBody = Buffer.concat(body).toString();
 			console.log(`parsedBody var in routes.js: ${parsedBody}`);
 			const newUser = `\n${parsedBody.split('=')[1].replace(/\+/g, " ")}`;
@@ -41,7 +41,7 @@ if (url === '/') {
 				return res.end();
 			});
 		if (url === '/create-user') {
-			res.write(usersTemplate);
+			res.write(await usersTemplate());
 			return res.end();
 		}
 		});
