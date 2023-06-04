@@ -19,9 +19,10 @@ const readFileToArray = (filePath) => {
 	// });
 
 const getUsersList = () => {
-	readFileToArray(pathToUserListFile)
+	return readFileToArray(pathToUserListFile) // returns data as Promise
 		.then(dataArray => {
-			return dataArray.map(dataMember => `<li>${dataMember}</li>\n`).join('').toString();
+			console.log(dataArray);
+			return dataArray.map(dataMember => `<li>${dataMember}</li>\n`).join('').toString(); // ETL to make array items HTML line items
 		})
 		.catch(error => console.error(`There was an error attempting to retrieve the userList.txt: ${error}.`));
 }
