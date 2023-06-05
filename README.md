@@ -22,4 +22,6 @@ Otherwise, you may run it in the standard Node.JS way —
 node app.js
 ```
 
+To see the app in action on your local machine, open your browser and go to [http://127.0.0.1:300](http://127.0.0.1:3000).
+
 *June 2023*
